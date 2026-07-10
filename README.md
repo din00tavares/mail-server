@@ -35,8 +35,9 @@ Stack (premissa: **tudo no mesmo servidor**):
 4. **Conta OCI (Oracle Cloud)** com o serviço **Email Delivery** habilitado na região desejada
    (ex.: `sa-saopaulo-1`).
 5. Portas liberadas no firewall/Security List da OCI **para o servidor** (entrada):
-   `25` (opcional/entrada de MX), `465`, `587`, `993`, `4190`, `8080` (a `143` é dispensável — só
-   usamos IMAPS/993).
+   `25` (opcional/entrada de MX), `465`, `587`, `993`, `995`, `4190`, `8080` (a `143` é dispensável).
+   > A **`995` (POP3S)** é necessária para buscar e-mails pelo **Gmail via POP3** (ver `GMAIL.md`).
+   > Abra tanto na **Security List da OCI** quanto no **firewall do servidor** (iptables).
    > A porta **25 de saída** é bloqueada pela OCI e **não** tem como abrir — por isso usamos o relay.
 
 ---
@@ -109,6 +110,7 @@ services:
       - "465:465"   # SMTPS (submissão implícita — usada pelo Roundcube)
       - "587:587"   # SMTP submission (STARTTLS) — requer o listener 'submission' (ver 7.1)
       - "993:993"   # IMAPS
+      - "995:995"   # POP3S — necessária p/ buscar e-mails pelo Gmail via POP3 (ver GMAIL.md)
       - "4190:4190" # ManageSieve
       - "8080:8080" # Webadmin / API
     volumes:
@@ -396,5 +398,5 @@ docker compose up -d stalwart-mail
 | Relay OCI | `smtp.email.<região>.oci.oraclecloud.com:587` (STARTTLS + AUTH) |
 | Admin de recuperação | `STALWART_RECOVERY_ADMIN=admin:<senha>` |
 | TLS | cert LE do **NPM** (`mail.<domínio>`), montado em `/opt/tls` via `sync-cert.sh` + cron; objeto Certificate no webadmin com `@type File` |
-| Listeners em uso | `25, 465, 587, 993, 4190, 8080` (587 = criado manualmente; `143` não usado) |
+| Listeners em uso | `25, 465, 587, 993, 995, 4190, 8080` (587 = criado manualmente; 995 = POP3S p/ Gmail; `143` não usado) |
 | Portas do NPM | `80/443` (por isso o Stalwart não usa ACME próprio) |
