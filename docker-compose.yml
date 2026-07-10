@@ -9,6 +9,7 @@ services:
       - "465:465" # SMTPS
       - "587:587" # SMTP submission
       - "993:993" # IMAPS
+      - "995:995" # POP3S (Gmail via POP3)
       - "4190:4190" # ManageSieve
       - "8080:8080" # Webadmin / API
     volumes:
