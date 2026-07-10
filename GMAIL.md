@@ -4,6 +4,7 @@ Com este passo a passo você vai conseguir **ler e enviar** os e-mails do seu en
 (`@polyenergia.com.br`) direto pela sua conta do **Gmail**, sem precisar abrir outro site.
 
 ## Antes de começar, tenha em mãos:
+
 - **Seu endereço da empresa** (exemplo: `seu-nome@polyenergia.com.br`)
 - **A senha desse e-mail** (a mesma que você usa no webmail; se não tiver, peça para o responsável de TI)
 - Um computador com o **Gmail aberto** (é mais fácil fazer no computador do que no celular)
@@ -37,18 +38,18 @@ Assim você consegue, ao escrever um e-mail no Gmail, escolher enviar **como** `
 
 8. Ainda em **“Contas e importação”**, na seção **“Enviar e-mail como”**, clique em
    **“Adicionar outro endereço de e-mail”**.
-9. Coloque o **seu nome** (como quer aparecer) e o **seu endereço da empresa**. Clique em
-   **“Próxima etapa”**.
-10. Preencha:
-    - **Servidor SMTP:** `mail.polyenergia.com.br`
+9. Coloque o **seu nome** (como quer aparecer) e o **seu endereço da empresa**.  Marque **"Tratar como um alias". Clique em
+   **“Próxima etapa”**.**
+10. **Preencha:- **Servidor SMTP:** `mail.polyenergia.com.br`
+
     - **Porta:** `465`
     - **Nome de usuário:** seu endereço completo
     - **Senha:** a senha do seu e-mail
     - Deixe marcado **“Conexão segura usando SSL”**
-11. Clique em **“Adicionar conta”**.
-12. O Gmail vai **enviar um código de confirmação** para o seu e-mail da empresa. Esse e-mail chega
-    na sua caixa (você acabou de configurar o recebimento na Parte 1). Abra-o, copie o **código** e
-    cole na janela do Gmail para confirmar.
+
+    **
+11. **Clique em **“Adicionar conta”**.**
+12. **O Gmail vai **enviar um email de verificação, abra o email e clique no link**.**
 
 Pronto! Agora, ao escrever um e-mail novo, no campo **“De”** você pode escolher o seu endereço da
 empresa.
@@ -57,15 +58,16 @@ empresa.
 
 ## Dados do servidor (caso o Gmail peça)
 
-| Para… | Servidor | Porta | Segurança |
-|-------|----------|-------|-----------|
-| **Receber** (POP) | `mail.polyenergia.com.br` | `995` | SSL |
-| **Enviar** (SMTP) | `mail.polyenergia.com.br` | `465` | SSL |
+| Para…                  | Servidor                    | Porta   | Segurança |
+| ----------------------- | --------------------------- | ------- | ---------- |
+| **Receber** (POP) | `mail.polyenergia.com.br` | `995` | SSL        |
+| **Enviar** (SMTP) | `mail.polyenergia.com.br` | `465` | SSL        |
 
 - **Usuário:** sempre o seu e-mail completo (ex.: `seu-nome@polyenergia.com.br`)
 - **Senha:** a senha do seu e-mail
 
 ## Dúvidas comuns
+
 - **“Não recebo o código de confirmação.”** Espere alguns minutos e confira também o webmail. O Gmail
   só busca e-mails de tempos em tempos, então pode demorar um pouco.
 - **“Deu erro de senha.”** Confira se digitou o **endereço completo** no campo de usuário e a senha
