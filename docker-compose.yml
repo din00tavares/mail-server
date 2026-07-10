@@ -1,0 +1,43 @@
+services:
+  stalwart-mail:
+    image: stalwartlabs/stalwart:latest
+    container_name: stalwart-mail
+    restart: unless-stopped
+    ports:
+      - "25:25" # SMTP routing
+      - "143:143" # IMAP
+      - "465:465" # SMTPS
+      - "587:587" # SMTP submission
+      - "993:993" # IMAPS
+      - "4190:4190" # ManageSieve
+      - "8080:8080" # Webadmin / API
+    volumes:
+      - ./data:/var/lib/stalwart
+      - ./etc:/etc/stalwart
+      - ./tls:/opt/tls:ro   # cert Let's Encrypt sincronizado do NPM (ver sync-cert.sh)
+    environment:
+      - TZ=${TIMEZONE:-America/Sao_Paulo}
+      - STALWART_RECOVERY_ADMIN=admin:${ADMIN_PASSWORD}
+    networks:
+      - proxy
+
+  roundcube:
+    image: roundcube/roundcubemail:latest
+    container_name: roundcube
+    restart: unless-stopped
+    environment:
+      - ROUNDCUBEMAIL_DB_TYPE=sqlite
+      - ROUNDCUBEMAIL_DEFAULT_HOST=ssl://stalwart-mail
+      - ROUNDCUBEMAIL_DEFAULT_PORT=993
+      - ROUNDCUBEMAIL_SMTP_SERVER=ssl://stalwart-mail
+      - ROUNDCUBEMAIL_SMTP_PORT=465
+    volumes:
+      - ./roundcube-config:/var/roundcube/config
+      - ./roundcube-db:/var/roundcube/db
+      - ./roundcube-plugins/strip_domain:/var/www/html/plugins/strip_domain
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

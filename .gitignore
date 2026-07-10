@@ -1,0 +1,21 @@
+# ─── Segredos e dados do servidor — NUNCA versionar ───
+.env
+
+# Dados/estado de runtime do Stalwart (contas, e-mails, config no RocksDB, fila)
+data/
+etc/
+
+# Certificados sincronizados (inclui chave privada)
+tls/
+
+# Banco do Roundcube (dados de usuário)
+roundcube-db/
+
+# Backups locais
+backup*/
+*.tar.gz
+
+# Chaves/segredos soltos e logs
+*.pem
+*.key
+*.log
