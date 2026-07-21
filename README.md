@@ -292,6 +292,16 @@ docker exec stalwart-mail sh -c 'cat /proc/net/tcp /proc/net/tcp6' \
 > A porta **143 (IMAP plano)** também não tem listener aqui — usamos só IMAPS/993. Pode remover
 > `143` do mapeamento de portas do compose para evitar confusão.
 
+### 7.2 Evitando bloqueio do Nginx Proxy Manager (Erro 502)
+
+Como o Stalwart tem proteção interna contra ataques de força bruta, se ele receber tráfego malicioso e **não souber que o Nginx é um proxy**, ele acabará bloqueando o IP interno do Nginx, derrubando o acesso com erro 502.
+
+Para evitar isso, é obrigatório ativar a leitura do IP real do cliente:
+1. No painel web do Stalwart, acesse **Settings → Network → HTTP**.
+2. Na seção **Proxy**, ative a opção **Obtain remote IP from Forwarded header** (ou Use X-Forwarded-For).
+3. Clique em **Save**.
+Isso garantirá que apenas o IP verdadeiro do atacante seja banido e não o seu proxy.
+
 ---
 
 ## 8. Verificação / teste de envio

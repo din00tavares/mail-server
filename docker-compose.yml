@@ -19,8 +19,7 @@ services:
     environment:
       - TZ=${TIMEZONE:-America/Sao_Paulo}
       - STALWART_RECOVERY_ADMIN=admin:${ADMIN_PASSWORD}
-      - STALWART_SECURITY_ALLOWED__IPS=["172.18.0.0/16","172.19.0.0/16","127.0.0.1/32"]
-      - STALWART_PROXY_TRUSTED__NETWORKS=["172.18.0.0/16","172.19.0.0/16","127.0.0.1/32"]
+
     networks:
       - proxy
 
