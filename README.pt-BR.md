@@ -298,13 +298,14 @@ docker exec stalwart-mail sh -c 'cat /proc/net/tcp /proc/net/tcp6' \
 
 ### 7.2 Evitando bloqueio do Nginx Proxy Manager (Erro 502)
 
-Como o Stalwart tem proteção interna contra ataques de força bruta, se ele receber tráfego malicioso e **não souber que o Nginx é um proxy**, ele acabará bloqueando o IP interno do Nginx, derrubando o acesso com erro 502.
+Como o Stalwart tem proteção interna contra ataques de força bruta, se ele receber tráfego malicioso e **não souber que o Nginx é um proxy confiável**, ele acabará bloqueando o IP interno do Nginx (ex.: `172.18.0.x`), derrubando o acesso com erro 502 para todo mundo.
 
-Para evitar isso, é obrigatório ativar a leitura do IP real do cliente:
-1. No painel web do Stalwart, acesse **Settings → Network → HTTP**.
-2. Na seção **Proxy**, ative a opção **Obtain remote IP from Forwarded header** (ou Use X-Forwarded-For).
-3. Clique em **Save**.
-Isso garantirá que apenas o IP verdadeiro do atacante seja banido e não o seu proxy.
+Para evitar isso, é **obrigatório** configurar a rede do proxy no painel web, blindando o IP interno no fail2ban e instruindo o Stalwart a ler o IP real:
+
+1. **Proxy Trusted Networks:** Acesse **Settings → Network → General** (ou Services). Na seção **Proxy**, procure por **Trusted Networks** e adicione a sub-rede do docker: `172.18.0.0/16`.
+2. **HTTP Forwarded Header:** Acesse **Settings → Network → HTTP**. Na seção **Proxy**, ative a opção **Obtain remote IP from Forwarded header** (ou Use X-Forwarded-For).
+3. **Fail2Ban Whitelist:** Acesse **Settings → Security → Allowed IPs** (ou Security → Authentication → Ignored IPs). Adicione também `172.18.0.0/16`. Isso dá imunidade absoluta à rede interna contra bloqueios de força bruta.
+4. Clique em **Save** em todas as telas e reinicie os containers.
 
 ---
 

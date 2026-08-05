@@ -230,12 +230,14 @@ Stalwart no trae **`submission` (587/STARTTLS)** por defecto. **Créelo** en **S
 
 ### 7.2 Evitar bloqueo de Nginx Proxy Manager (Error 502)
 
-Como Stalwart tiene protección contra ataques de fuerza bruta, si recibe tráfico malicioso y **no sabe que Nginx es un proxy**, bloqueará la IP interna de Nginx (Error 502).
+Como Stalwart tiene protección contra ataques de fuerza bruta, si recibe tráfico malicioso y **no sabe que Nginx es un proxy confiable**, bloqueará la IP interna de Nginx (ej.: `172.18.0.x`), causando un error 502 para todos.
 
-Para evitar esto:
-1. En el webadmin de Stalwart, acceda a **Settings → Network → HTTP**.
-2. En la sección **Proxy**, active **Obtain remote IP from Forwarded header** (Use X-Forwarded-For).
-3. Haga clic en **Save**.
+Para evitar esto, es **obligatorio** configurar la red del proxy en el panel web para que Stalwart respete el IP real y no bloquee al proxy:
+
+1. **Proxy Trusted Networks:** Vaya a **Settings → Network → General** (o Services). En la sección **Proxy**, busque **Trusted Networks** y agregue la subred de Docker: `172.18.0.0/16`.
+2. **HTTP Forwarded Header:** Vaya a **Settings → Network → HTTP**. En la sección **Proxy**, active **Obtain remote IP from Forwarded header**.
+3. **Fail2Ban Whitelist:** Vaya a **Settings → Security → Allowed IPs** (o Security → Authentication → Ignored IPs). Agregue `172.18.0.0/16`. Esto da inmunidad absoluta a la red interna contra bloqueos.
+4. Haga clic en **Save** en todas las pantallas.
 
 ---
 

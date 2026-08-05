@@ -142,9 +142,11 @@ Das Skript `sync-cert.sh` kopiert die Zertifikate nach `./tls/`.
 Stalwart bringt standardmäßig keinen `submission` (587/STARTTLS) Listener mit. Erstellen Sie ihn unter **Settings → Server → Listeners**.
 
 ### 7.2 Blockierung des Nginx Proxy Managers verhindern (Fehler 502)
-Damit die Brute-Force-Protection von Stalwart nicht den NPM blockiert:
-1. Gehen Sie zu **Settings → Network → HTTP**.
-2. Aktivieren Sie **Obtain remote IP from Forwarded header**.
+Damit die Brute-Force-Protection von Stalwart nicht den NPM blockiert, muss das Proxy-Netzwerk zwingend konfiguriert werden:
+1. **Proxy Trusted Networks:** Gehen Sie zu **Settings → Network → General** (oder Services). Unter **Proxy** fügen Sie das Docker-Subnetz zu **Trusted Networks** hinzu: `172.18.0.0/16`.
+2. **HTTP Forwarded Header:** Gehen Sie zu **Settings → Network → HTTP**. Aktivieren Sie unter **Proxy** die Option **Obtain remote IP from Forwarded header**.
+3. **Fail2Ban Whitelist:** Gehen Sie zu **Settings → Security → Allowed IPs** (oder Security → Authentication → Ignored IPs) und fügen Sie `172.18.0.0/16` hinzu. Dies schützt das interne Netzwerk vor Blockaden.
+4. Klicken Sie überall auf **Save**.
 
 ---
 
