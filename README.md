@@ -256,10 +256,11 @@ Because Stalwart has built-in brute-force protection, if it receives malicious t
 
 To avoid this, it is **mandatory** to configure the proxy subnet in the Web Admin so Stalwart honors the `X-Forwarded-For` header and bypasses the proxy in fail2ban:
 
-1. **Proxy Trusted Networks:** Go to **Settings → Network → General** (or Services). Under **Proxy**, find **Trusted Networks** and add the docker subnet: `172.18.0.0/16`. This makes Stalwart respect proxy headers.
-2. **HTTP Forwarded Header:** Go to **Settings → Network → HTTP**. Under **Proxy**, enable **Obtain remote IP from Forwarded header**.
-3. **Fail2Ban Whitelist:** Go to **Settings → Security → Allowed IPs** (or Security → Authentication → Ignored IPs). Add `172.18.0.0/16`. This grants the docker internal network absolute immunity from brute-force bans.
-4. Click **Save** on all pages.
+1. **HTTP Forwarded Header:** Go to **Settings → Network → HTTP**. Under **Proxy**, enable **Obtain remote IP from Forwarded header**. This makes Stalwart read the real client IP for HTTP requests.
+2. **Fail2Ban Whitelist:** Go to **Settings → Security → Allowed IPs** (or Security → Authentication → Ignored IPs). Add `172.18.0.0/16`. This grants the docker internal network absolute immunity from brute-force bans.
+3. Click **Save** on all pages.
+
+> ⚠️ **IMPORTANT:** DO NOT add the subnet to `Settings → Network → General → Proxy Trusted Networks`. That setting strictly expects the HAProxy PROXY protocol signature, which Nginx Proxy Manager does not send, causing Stalwart to instantly drop the connection!
 
 ---
 

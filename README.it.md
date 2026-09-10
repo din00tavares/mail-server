@@ -137,10 +137,11 @@ L'installazione predefinita non include un listener per `submission` (587/STARTT
 
 ### 7.2 Prevenire il blocco di Nginx Proxy Manager (Errore 502)
 Affinché la protezione brute-force di Stalwart non blocchi NPM, è **obbligatorio** configurare la rete proxy in modo che Stalwart onori l'IP reale e non blocchi il proxy:
-1. **Proxy Trusted Networks:** Vai su **Settings → Network → General** (o Services). Nella sezione **Proxy**, aggiungi la sottorete Docker a **Trusted Networks**: `172.18.0.0/16`.
-2. **HTTP Forwarded Header:** Vai su **Settings → Network → HTTP**. Nella sezione **Proxy**, abilita **Obtain remote IP from Forwarded header**.
-3. **Fail2Ban Whitelist:** Vai su **Settings → Security → Allowed IPs** (o Security → Authentication → Ignored IPs) e aggiungi `172.18.0.0/16`. Questo garantisce l'immunità totale contro i blocchi per la rete interna.
-4. Fai clic su **Save** su tutte le schermate.
+1. **HTTP Forwarded Header:** Vai su **Settings → Network → HTTP**. Nella sezione **Proxy**, abilita **Obtain remote IP from Forwarded header**.
+2. **Fail2Ban Whitelist:** Vai su **Settings → Security → Allowed IPs** (o Security → Authentication → Ignored IPs) e aggiungi `172.18.0.0/16`. Questo garantisce l'immunità totale contro i blocchi per la rete interna.
+3. Fai clic su **Save** su tutte le schermate.
+
+> ⚠️ **IMPORTANTE:** NON aggiungere la sottorete in `Settings → Network → General → Proxy Trusted Networks`. Questa impostazione richiede rigorosamente la firma binaria del protocollo PROXY di HAProxy, che Nginx Proxy Manager non invia, causando la chiusura immediata della connessione da parte di Stalwart!
 
 ---
 

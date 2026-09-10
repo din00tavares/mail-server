@@ -234,10 +234,11 @@ Como Stalwart tiene protección contra ataques de fuerza bruta, si recibe tráfi
 
 Para evitar esto, es **obligatorio** configurar la red del proxy en el panel web para que Stalwart respete el IP real y no bloquee al proxy:
 
-1. **Proxy Trusted Networks:** Vaya a **Settings → Network → General** (o Services). En la sección **Proxy**, busque **Trusted Networks** y agregue la subred de Docker: `172.18.0.0/16`.
-2. **HTTP Forwarded Header:** Vaya a **Settings → Network → HTTP**. En la sección **Proxy**, active **Obtain remote IP from Forwarded header**.
-3. **Fail2Ban Whitelist:** Vaya a **Settings → Security → Allowed IPs** (o Security → Authentication → Ignored IPs). Agregue `172.18.0.0/16`. Esto da inmunidad absoluta a la red interna contra bloqueos.
-4. Haga clic en **Save** en todas las pantallas.
+1. **HTTP Forwarded Header:** Vaya a **Settings → Network → HTTP**. En la sección **Proxy**, active **Obtain remote IP from Forwarded header**. Esto hace que Stalwart lea la IP real para las solicitudes HTTP.
+2. **Fail2Ban Whitelist:** Vaya a **Settings → Security → Allowed IPs** (o Security → Authentication → Ignored IPs). Agregue `172.18.0.0/16`. Esto da inmunidad absoluta a la red interna contra bloqueos.
+3. Haga clic en **Save** en todas las pantallas.
+
+> ⚠️ **IMPORTANTE:** NO agregue la subred en `Settings → Network → General → Proxy Trusted Networks`. ¡Esta configuración requiere la firma binaria del protocolo PROXY de HAProxy, que Nginx Proxy Manager no envía, provocando que Stalwart cierre la conexión instantáneamente!
 
 ---
 

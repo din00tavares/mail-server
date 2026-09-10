@@ -302,10 +302,11 @@ Como o Stalwart tem proteção interna contra ataques de força bruta, se ele re
 
 Para evitar isso, é **obrigatório** configurar a rede do proxy no painel web, blindando o IP interno no fail2ban e instruindo o Stalwart a ler o IP real:
 
-1. **Proxy Trusted Networks:** Acesse **Settings → Network → General** (ou Services). Na seção **Proxy**, procure por **Trusted Networks** e adicione a sub-rede do docker: `172.18.0.0/16`.
-2. **HTTP Forwarded Header:** Acesse **Settings → Network → HTTP**. Na seção **Proxy**, ative a opção **Obtain remote IP from Forwarded header** (ou Use X-Forwarded-For).
-3. **Fail2Ban Whitelist:** Acesse **Settings → Security → Allowed IPs** (ou Security → Authentication → Ignored IPs). Adicione também `172.18.0.0/16`. Isso dá imunidade absoluta à rede interna contra bloqueios de força bruta.
-4. Clique em **Save** em todas as telas e reinicie os containers.
+1. **HTTP Forwarded Header:** Acesse **Settings → Network → HTTP**. Na seção **Proxy**, ative a opção **Obtain remote IP from Forwarded header** (ou Use X-Forwarded-For). Isso faz o Stalwart ler o IP real para requisições HTTP.
+2. **Fail2Ban Whitelist:** Acesse **Settings → Security → Allowed IPs** (ou Security → Authentication → Ignored IPs). Adicione também `172.18.0.0/16`. Isso dá imunidade absoluta à rede interna contra bloqueios de força bruta.
+3. Clique em **Save** em todas as telas e reinicie os containers.
+
+> ⚠️ **IMPORTANTE:** NÃO adicione a sub-rede em `Settings → Network → General → Proxy Trusted Networks`. Essa configuração exige a assinatura binária do protocolo PROXY do HAProxy, que o Nginx Proxy Manager não envia, fazendo com que o Stalwart derrube a conexão na hora!
 
 ---
 
